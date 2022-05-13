@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class KafkaProducerClient {
 
@@ -28,13 +26,15 @@ public class KafkaProducerClient {
     public ResponseEntity insertMessage(String topic, String input) {
 
         producer = new KafkaProducer<>(props);
-
         ProducerRecord<String, String> record = new ProducerRecord<String, String>(topic, "message", input);
         producer.send(record);
         producer.close();
 
+        //TODO: this method always return OK, even if send method has failed
         return new ResponseEntity<>("Message Insertion OK:" + input, HttpStatus.OK);
         }
+
+
 
 
 }
