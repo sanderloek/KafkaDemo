@@ -6,7 +6,9 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.time.Duration;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -44,8 +46,7 @@ public class KafkaConsumerClient {
             return new ResponseEntity<>("Messages for topic: " + topic + messages, HttpStatus.OK);
     }
 
-    private int getSkipNumber (int limit, int count)
-    {
+    private int getSkipNumber(int limit, int count) {
         if (limit > count)
             return 0; // if given limit is more than existing records, do not skip anything
         else

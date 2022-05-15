@@ -3,10 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.client.KafkaAdminClient;
 import com.example.demo.client.KafkaConsumerClient;
 import com.example.demo.client.KafkaProducerClient;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 public class KafkaRestController {
@@ -18,7 +16,7 @@ public class KafkaRestController {
 
     @PostMapping("/api/v1/topics")
     public ResponseEntity processCreateKafkaTopic(@RequestBody String input) {
-          return kafkaAdminClient.createKafkaTopic(input);
+        return kafkaAdminClient.createKafkaTopic(input);
     }
 
     @GetMapping("/api/v1/topics")

@@ -1,9 +1,10 @@
 package com.example.demo.client;
 
-import org.apache.kafka.clients.producer.*;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.Properties;
 
 public class KafkaProducerClient {
@@ -31,5 +32,5 @@ public class KafkaProducerClient {
 
         //TODO: this method always return OK, even if send method has failed
         return new ResponseEntity<>("Message Insertion OK:" + input, HttpStatus.OK);
-        }
+    }
 }
