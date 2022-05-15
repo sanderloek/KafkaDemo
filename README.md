@@ -9,5 +9,8 @@ Demo SpringBoot Application with four kafka REST operations:
 # Build
 Use maven
 
+# Configure
+Nothing yet, see /clients/ for Kafka config
+
 # Test
 Use provided PostMan collection
