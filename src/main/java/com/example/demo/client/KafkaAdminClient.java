@@ -1,37 +1,35 @@
 package com.example.demo.client;
 
 import org.apache.kafka.clients.admin.*;
-import org.apache.kafka.common.KafkaFuture;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.Collections;
 import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class KafkaAdminClient {
 
-    Properties props;
+    private Properties props;
 
     public KafkaAdminClient()
     {
-
         props = new Properties();
-        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put("bootstrap.servers", "localhost:9092");
+        // TODO: read value value from app.properties
     }
-    public ResponseEntity createKafkaTopic() {
+
+
+        public ResponseEntity createKafkaTopic(String input) {
 
         try (Admin admin = Admin.create(props)) {
-            String topicName = "my-topic-random";
             int partitions = 1;
             short replicationFactor = 1;
 
             CreateTopicsResult result = admin.createTopics(Collections.singleton(
-                    new NewTopic(topicName, partitions, replicationFactor)));
+                    new NewTopic(input, partitions, replicationFactor)));
 
-
-            return new ResponseEntity<>("Topic created successfully " + result.values().get(topicName).get(), HttpStatus.OK);
+            result.all().get(); // this call to make sure topic is created
+            return new ResponseEntity<>("Topic created successfully" , HttpStatus.OK);
         } catch (ExecutionException | InterruptedException e) {
             return new ResponseEntity<>("Topic creation failed " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -42,11 +40,9 @@ public class KafkaAdminClient {
         try (Admin admin = Admin.create(props)) {
 
             ListTopicsResult result = admin.listTopics();
-
-
             return new ResponseEntity<>(result.names().get(), HttpStatus.OK);
 
-        } catch (ExecutionException | InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) { //exception thrown if .get fails
             return new ResponseEntity<>("Topic listing failed " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 
         }

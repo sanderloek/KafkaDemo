@@ -20,7 +20,6 @@ public class KafkaProducerClient {
         props.put("linger.ms", 1);
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-
     }
 
     public ResponseEntity insertMessage(String topic, String input) {
@@ -28,13 +27,9 @@ public class KafkaProducerClient {
         producer = new KafkaProducer<>(props);
         ProducerRecord<String, String> record = new ProducerRecord<String, String>(topic, "message", input);
         producer.send(record);
-        producer.close();
+        producer.close(); // close to free up resources
 
         //TODO: this method always return OK, even if send method has failed
         return new ResponseEntity<>("Message Insertion OK:" + input, HttpStatus.OK);
         }
-
-
-
-
 }
